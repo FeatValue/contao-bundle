@@ -1,0 +1,16 @@
+{% extends "@Contao/be_main" %}
+
+{% block headline %}{{ headline }}{% endblock %}
+
+{% block error %}{% endblock %}
+
+{% block main %}
+<style>
+    #main .content, #main .tl_content, #main .tl_listing_container { max-width: none; }
+    .featvalue-tasks { width: 100%; min-width: 0; padding: 0 18px 18px; box-sizing: border-box; }
+    .featvalue-tasks .featvalue-dashboard-wrap, .featvalue-tasks #featvalue-dashboard-iframe { width: 100% !important; min-width: 100%; }
+</style>
+<div class="featvalue-tasks">
+    {{ featvalueHtml|raw }}
+</div>
+{% endblock %}

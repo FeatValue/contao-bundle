@@ -1,0 +1,72 @@
+.fv-embed-status-gate {
+	position: absolute;
+	inset: 0;
+	z-index: 5;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 24px;
+	background: rgba(248, 250, 252, 0.92);
+	box-sizing: border-box;
+}
+
+.fv-embed-status-gate-card {
+	max-width: 360px;
+	width: 100%;
+	background: #fff;
+	border: 1px solid #e2e8f0;
+	border-radius: 12px;
+	box-shadow: 0 10px 30px rgba(15, 23, 42, 0.12);
+	padding: 24px;
+	text-align: center;
+	font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+
+.fv-embed-status-gate-card p {
+	margin: 0 0 12px;
+	color: #334155;
+	font-size: 15px;
+	line-height: 1.45;
+}
+
+.fv-embed-status-gate-card .fv-embed-status-hint {
+	color: #64748b;
+	font-size: 13px;
+	margin-bottom: 18px;
+}
+
+.fv-embed-status-gate-button {
+	appearance: none;
+	border: 0;
+	border-radius: 8px;
+	background: #0f172a;
+	color: #fff;
+	font-size: 15px;
+	font-weight: 600;
+	padding: 10px 16px;
+	cursor: pointer;
+}
+
+.fv-embed-status-gate-button:hover {
+	background: #1e293b;
+}
+
+.fv-embed-status-gate-button:disabled {
+	opacity: 0.6;
+	cursor: wait;
+}
+
+.fv-embed-status-feedback {
+	margin: 12px 0 0;
+	font-size: 13px;
+	line-height: 1.4;
+	color: #64748b;
+}
+
+.fv-embed-status-feedback.is-success {
+	color: #15803d;
+}
+
+.fv-embed-status-feedback.is-error {
+	color: #b91c1c;
+}

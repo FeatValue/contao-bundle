@@ -1,0 +1,7 @@
+featvalue_contao_controllers:
+  resource: '../src/Controller/Backend/'
+  type: attribute
+
+featvalue_contao_api:
+  resource: '../src/Controller/Api/'
+  type: attribute

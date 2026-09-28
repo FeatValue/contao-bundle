@@ -1,0 +1,15 @@
+services:
+  _defaults:
+    autowire: true
+    autoconfigure: true
+    public: false
+    bind:
+      $appSecret: '%kernel.secret%'
+
+  Featvalue\ContaoBundle\:
+    resource: '../src/'
+    exclude:
+      - '../src/ContaoManager/'
+      - '../src/DependencyInjection/'
+      - '../src/FeatvalueContaoBundle.php'
+      - '../src/Targets.php'

@@ -1,0 +1,111 @@
+{% extends "@Contao/be_main" %}
+
+{% block headline %}{{ headline }}{% endblock %}
+
+{% block error %}{% endblock %}
+
+{% block main %}
+<div class="featvalue-settings-page" style="flex:1 1 auto;width:100%;min-width:0;">
+{% if connected %}
+        {# Oben rechts, grau wie die übrigen Buttons #}
+        <form method="post" style="display:flex;justify-content:flex-end;margin:12px 18px 0;" onsubmit="return confirm({{ lang.reallyDisconnect|json_encode|e('html_attr') }});">
+            <input type="hidden" name="REQUEST_TOKEN" value="{{ requestToken }}">
+            <input type="hidden" name="action" value="disconnect">
+            <button type="submit" class="tl_submit">{{ lang.disconnect }}</button>
+        </form>
+    {% endif %}
+<div class="tl_formbody_edit featvalue-settings" style="max-width:720px;padding:0 18px 18px;">
+    {% if error %}<p class="tl_error">{{ error }}</p>{% endif %}
+    {% if mailError %}<p class="tl_error">{{ mailError }}</p>{% endif %}
+
+    {% if not connected %}
+        <p>{{ lang.notConnected }}</p>
+        <form method="post">
+            <input type="hidden" name="REQUEST_TOKEN" value="{{ requestToken }}">
+            <input type="hidden" name="action" value="connect">
+            <div class="tl_submit_container" style="border:0;padding:0;">
+                <button type="submit" class="tl_submit">{{ lang.connect }}</button>
+            </div>
+        </form>
+    {% elseif siteType == '' %}
+        <form method="post">
+            <input type="hidden" name="REQUEST_TOKEN" value="{{ requestToken }}">
+            <input type="hidden" name="action" value="saveSiteType">
+            <fieldset class="tl_tbox">
+                <legend>{{ lang.siteType }}</legend>
+                <p class="tl_help">{{ lang.siteTypePermanent }}</p>
+                <div class="widget">
+                    <div class="tl_radio_container">
+                        <input type="radio" name="site_type" id="featvalue_site_type_client" class="tl_radio" value="client" required>
+                        <label for="featvalue_site_type_client">{{ lang.siteTypeClient }}</label>
+                        <p class="tl_help tl_tip">{{ lang.siteTypeClientHelp }}</p>
+                        <input type="radio" name="site_type" id="featvalue_site_type_agency" class="tl_radio" value="agency">
+                        <label for="featvalue_site_type_agency">{{ lang.siteTypeAgency }}</label>
+                        <p class="tl_help tl_tip">{{ lang.siteTypeAgencyHelp }}</p>
+                    </div>
+                </div>
+            </fieldset>
+            <div class="tl_submit_container">
+                <button type="submit" class="tl_submit">{{ lang.save }}</button>
+            </div>
+        </form>
+    {% elseif siteType == 'client' and clientId < 1 %}
+        <form method="post">
+            <input type="hidden" name="REQUEST_TOKEN" value="{{ requestToken }}">
+            <input type="hidden" name="action" value="saveClient">
+            <fieldset class="tl_tbox">
+                <legend>{{ lang.client }}</legend>
+                <p class="tl_help">{{ lang.siteTypePermanent }}</p>
+                <div class="widget">
+                    <select name="featvalue_client_id" class="tl_select" required>
+                        <option value="">-</option>
+                        {% for client in clients %}
+                            <option value="{{ client.id }}">{{ client.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </fieldset>
+            <div class="tl_submit_container">
+                <button type="submit" class="tl_submit"{% if clients is empty %} disabled{% endif %}>{{ lang.save }}</button>
+            </div>
+        </form>
+    {% else %}
+        <p class="tl_confirm">{{ lang.connected }}</p>
+        <fieldset class="tl_tbox">
+            <legend>{{ lang.siteTypeLabel }}</legend>
+            <div class="widget">
+                <p>{{ siteType == 'agency' ? lang.siteTypeAgency : lang.siteTypeClient }}</p>
+            </div>
+        </fieldset>
+        <form method="post">
+            <input type="hidden" name="REQUEST_TOKEN" value="{{ requestToken }}">
+            <input type="hidden" name="action" value="saveSso">
+            <fieldset class="tl_box">
+                <legend>{{ lang.sso }}</legend>
+                <div class="widget">
+                    <div class="tl_checkbox_single_container">
+                        <input type="checkbox" name="sso_enabled" id="featvalue_sso_enabled" class="tl_checkbox" value="1"{% if ssoEnabled %} checked{% endif %}{% if not ssoAvailable %} disabled{% endif %}>
+                        <label for="featvalue_sso_enabled">{{ lang.sso }}</label>
+                    </div>
+                    <p class="tl_help tl_tip">{{ lang.ssoHelp }}
+                        {% if not ssoAvailable %}<a href="{{ plansUrl }}" target="_blank" rel="noopener noreferrer">{{ lang.viewPlans }}</a>{% endif %}
+                    </p>
+                </div>
+            </fieldset>
+            {% if ssoAvailable %}
+                <div class="tl_submit_container">
+                    <button type="submit" class="tl_submit">{{ lang.save }}</button>
+                </div>
+            {% endif %}
+        </form>
+        <fieldset class="tl_box">
+            <legend>{{ lang.whitelabeling }}</legend>
+            <div class="widget">
+                <a class="tl_submit" href="{{ whitelabelingUrl }}" target="_blank" rel="noopener noreferrer">{{ lang.openWhitelabeling }}</a>
+            </div>
+        </fieldset>
+    {% endif %}
+
+</div>
+</div>
+{% endblock %}
